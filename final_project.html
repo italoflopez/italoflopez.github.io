@@ -3207,11 +3207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 </article></slide><slide class=""><hgroup><h2>The UI</h2></hgroup><article  id="the-ui">
 
-<pre class = 'prettyprint lang-r'>## UI Code
-
-&lt;div style=&quot;overflow-x: auto; background:#f8f8f8; padding:10px; border-radius:5px&quot;&gt;
-&lt;pre&gt;&lt;code class=&quot;r&quot;&gt;
-ui &lt;- fluidPage(
+<pre class = 'prettyprint lang-r'>ui &lt;- fluidPage(
   tags$head(
     tags$style(HTML(&quot;
       input[type=number]::-webkit-inner-spin-button, 
@@ -3227,18 +3223,45 @@ ui &lt;- fluidPage(
   
   titlePanel(&quot;Your Location Viewer&quot;),
   
-  sidebarLayout(
-    sidebarPanel(
-      numericInput(&quot;Latitud&quot;, &quot;Enter Latitude:&quot;, value = NA),
-      numericInput(&quot;Longitud&quot;, &quot;Enter Longitude:&quot;, value = NA)
+  tabsetPanel(
+    tabPanel(&quot;App&quot;,
+             sidebarLayout(
+               sidebarPanel(
+                 numericInput(&quot;Latitud&quot;, &quot;Enter Latitude:&quot;, value = NA),
+                 numericInput(&quot;Longitud&quot;, &quot;Enter Longitude:&quot;, value = NA)
+               ),
+               mainPanel(
+                 leafletOutput(&quot;map1&quot;, height = 400)
+               )
+             )
     ),
-    mainPanel(
-      leafletOutput(&quot;map1&quot;, height = 400)
+    
+    tabPanel(&quot;Documentation&quot;,
+             h3(&quot;App Documentation: Latitude &amp; Longitude Viewer&quot;),
+             p(&quot;This app lets you input latitude and longitude coordinates.&quot;),
+             tags$ul(
+               tags$li(&quot;Enter numeric values for latitude and longitude.&quot;),
+               tags$li(&quot;Inputs accept only keyboard entry (spinner arrows removed).&quot;),
+               tags$li(&quot;Once both values are entered, a Leaflet map is displayed.&quot;),
+               tags$li(&quot;The map is centered on the entered coordinates.&quot;),
+               tags$li(&quot;A marker is placed at the specified location with a popup.&quot;)
+             ),
+             h4(&quot;Technical Details&quot;),
+             tags$ul(
+               tags$li(&quot;Built with R Shiny and Leaflet.&quot;),
+               tags$li(&quot;Uses `numericInput()` with custom CSS to remove steppers.&quot;),
+               tags$li(&quot;Map is rendered with `renderLeaflet()` and `leafletOutput()`.&quot;),
+               tags$li(&quot;Map updates reactively when both values are present.&quot;)
+             ),
+             h4(&quot;Possible Enhancements&quot;),
+             tags$ul(
+               tags$li(&quot;Validate input ranges: Latitude [-90, 90], Longitude [-180, 180]&quot;),
+               tags$li(&quot;Allow saving of locations or multiple markers&quot;),
+               tags$li(&quot;Add zoom controls or map type selector&quot;)
+             )
     )
   )
-)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</pre>
+)</pre>
 
 </article></slide><slide class=""><hgroup><h2>The server is simple</h2></hgroup><article  id="the-server-is-simple">
 
@@ -3252,9 +3275,9 @@ ui &lt;- fluidPage(
       addMarkers(lat = input$Latitud, lng = input$Longitud, popup = &quot;Your location&quot;)
   })})</pre>
 
-</article></slide><slide class=""><hgroup><h2>This is the App</h2></hgroup><article  id="this-is-the-app">
+</article></slide><slide class=""><hgroup><h2>The Shiny App</h2></hgroup><article  id="the-shiny-app">
 
-<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div></article></slide>
+<p>You can access the Shiny app here: <a href='https://italoflopez.shinyapps.io/developing_data_products_final_project/' title=''>My Shiny App</a></p></article></slide>
 
 
   <slide class="backdrop"></slide>
