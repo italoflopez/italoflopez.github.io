@@ -6,10 +6,13 @@ output:
 date: "2025-05-11"
 ---
 
-# Plotly plot
+```{r setup, include=FALSE}
+library(plotly)
+```
+
+## Plotly plot
 
 ```{r, echo=FALSE}
-library(plotly)
 set.seed(123)
 white_noise <- rnorm(100)
 index <- 1:100
@@ -27,3 +30,4 @@ fig <- plot_ly(data = data,
 fig
 ```
 
+## Thanks

@@ -1,0 +1,48 @@
+---
+title: "tryout"
+output: ioslides_presentation
+date: "2025-05-11"
+---
+
+```{r setup, include=FALSE}
+library(plotly)
+```
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r , echo = FALSE}
+set.seed(123)
+white_noise <- rnorm(100)
+index <- 1:100
+data <- data.frame(index = index, white_noise = white_noise)
+
+fig <- plot_ly(data = data, 
+               x = ~index, 
+               y = ~white_noise, 
+               type = 'scatter', 
+               mode = 'lines+markers') %>%
+  layout(title = "White Noise Time Series",
+         xaxis = list(title = "Index"),
+         yaxis = list(title = "Value"))
+
+fig
+```
+
