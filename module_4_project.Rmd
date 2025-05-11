@@ -1,3 +1,8 @@
+---
+title: "Module 4 project"
+output: ioslides_presentation
+date: "2025-05-11"
+
 ## May 10, 2025
 
 ```{r, echo=FALSE}
@@ -21,3 +26,4 @@ fig <- plot_ly(data = data,
 
 fig
 ```
+
