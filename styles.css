@@ -1,0 +1,4 @@
+pre code {
+  font-size: 0.75em;
+  white-space: pre-wrap; /* wrap long lines */
+}

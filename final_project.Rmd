@@ -1,0 +1,164 @@
+---
+title: "Reproducible Pitch"
+output: ioslides_presentation
+date: "2025-05-11"
+---
+
+```{r setup, include=FALSE}
+library(shiny)
+library(leaflet)
+```
+
+## Welcome to my App
+
+This app shows your location
+
+The code is simple
+
+## The UI
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  tags$head(
+    tags$style(HTML("
+      input[type=number]::-webkit-inner-spin-button, 
+      input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+      }
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
+    "))
+  ),
+  
+  titlePanel("Your Location Viewer"),
+  
+  tabsetPanel(
+    tabPanel("App",
+             sidebarLayout(
+               sidebarPanel(
+                 numericInput("Latitud", "Enter Latitude:", value = NA),
+                 numericInput("Longitud", "Enter Longitude:", value = NA)
+               ),
+               mainPanel(
+                 leafletOutput("map1", height = 400)
+               )
+             )
+    ),
+    
+    tabPanel("Documentation",
+             h3("App Documentation: Latitude & Longitude Viewer"),
+             p("This app lets you input latitude and longitude coordinates."),
+             tags$ul(
+               tags$li("Enter numeric values for latitude and longitude."),
+               tags$li("Inputs accept only keyboard entry (spinner arrows removed)."),
+               tags$li("Once both values are entered, a Leaflet map is displayed."),
+               tags$li("The map is centered on the entered coordinates."),
+               tags$li("A marker is placed at the specified location with a popup.")
+             ),
+             h4("Technical Details"),
+             tags$ul(
+               tags$li("Built with R Shiny and Leaflet."),
+               tags$li("Uses `numericInput()` with custom CSS to remove steppers."),
+               tags$li("Map is rendered with `renderLeaflet()` and `leafletOutput()`."),
+               tags$li("Map updates reactively when both values are present.")
+             ),
+             h4("Possible Enhancements"),
+             tags$ul(
+               tags$li("Validate input ranges: Latitude [-90, 90], Longitude [-180, 180]"),
+               tags$li("Allow saving of locations or multiple markers"),
+               tags$li("Add zoom controls or map type selector")
+             )
+    )
+  )
+)
+
+
+```
+
+## The server is simple
+
+```{r, eval = FALSE}
+shinyServer(function(input, output) {
+  output$map1 <- renderLeaflet({
+    req(!is.na(input$Latitud), !is.na(input$Longitud))  # Wait for both values
+    
+    leaflet() %>%
+      addTiles() %>%
+      setView(lng = input$Longitud, lat = input$Latitud, zoom = 10) %>%
+      addMarkers(lat = input$Latitud, lng = input$Longitud, popup = "Your location")
+  })})
+```
+
+## This is the App
+
+```{r, echo=FALSE}
+ui <- fluidPage(
+  tags$head(
+    tags$style(HTML("
+      input[type=number]::-webkit-inner-spin-button, 
+      input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+      }
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
+    "))
+  ),
+  
+  titlePanel("Your Location Viewer"),
+  
+  tabsetPanel(
+    tabPanel("App",
+             sidebarLayout(
+               sidebarPanel(
+                 numericInput("Latitud", "Enter Latitude:", value = NA),
+                 numericInput("Longitud", "Enter Longitude:", value = NA)
+               ),
+               mainPanel(
+                 leafletOutput("map1", height = 400)
+               )
+             )
+    ),
+    
+    tabPanel("Documentation",
+             h3("App Documentation: Latitude & Longitude Viewer"),
+             p("This app lets you input latitude and longitude coordinates."),
+             tags$ul(
+               tags$li("Enter numeric values for latitude and longitude."),
+               tags$li("Inputs accept only keyboard entry (spinner arrows removed)."),
+               tags$li("Once both values are entered, a Leaflet map is displayed."),
+               tags$li("The map is centered on the entered coordinates."),
+               tags$li("A marker is placed at the specified location with a popup.")
+             ),
+             h4("Technical Details"),
+             tags$ul(
+               tags$li("Built with R Shiny and Leaflet."),
+               tags$li("Uses `numericInput()` with custom CSS to remove steppers."),
+               tags$li("Map is rendered with `renderLeaflet()` and `leafletOutput()`."),
+               tags$li("Map updates reactively when both values are present.")
+             ),
+             h4("Possible Enhancements"),
+             tags$ul(
+               tags$li("Validate input ranges: Latitude [-90, 90], Longitude [-180, 180]"),
+               tags$li("Allow saving of locations or multiple markers"),
+               tags$li("Add zoom controls or map type selector")
+             )
+    )
+  )
+)
+
+server <- shinyServer(function(input, output) {
+  output$map1 <- renderLeaflet({
+    req(!is.na(input$Latitud), !is.na(input$Longitud))  # Wait for both values
+    
+    leaflet() %>%
+      addTiles() %>%
+      setView(lng = input$Longitud, lat = input$Latitud, zoom = 10) %>%
+      addMarkers(lat = input$Latitud, lng = input$Longitud, popup = "Your location")
+  })})
+
+shinyApp(ui, server)
+```
