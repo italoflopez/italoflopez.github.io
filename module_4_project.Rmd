@@ -1,0 +1,23 @@
+## May 10, 2025
+
+```{r, echo=FALSE}
+library(plotly)
+library(tseries)
+# Generate white noise and create index
+set.seed(123)
+white_noise <- rnorm(100)
+index <- 1:100
+data <- data.frame(index = index, white_noise = white_noise)
+
+# Proper Plotly call — all arguments named
+fig <- plot_ly(data = data, 
+               x = ~index, 
+               y = ~white_noise, 
+               type = 'scatter', 
+               mode = 'lines+markers') %>%
+  layout(title = "White Noise Time Series",
+         xaxis = list(title = "Index"),
+         yaxis = list(title = "Value"))
+
+fig
+```
